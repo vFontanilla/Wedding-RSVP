@@ -1,18 +1,36 @@
 "use client"
 
 import React from "react"
+import { z } from "zod"
+import { toast } from "sonner"
+import { Mail, Send } from "lucide-react"
+
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { toast } from "sonner"
-import { Mail, Send } from "lucide-react"
+
+// Zod Schema
+const rsvpSchema = z.object({
+  name: z.string().min(1, "Name is required."),
+  email: z.string().email("Invalid email address."),
+  attending: z.enum(["yes", "no"]),
+  guests: z
+    .string()
+    .refine((val) => !isNaN(Number(val)) && Number(val) >= 1, {
+      message: "Guests must be a number greater than 0.",
+    }),
+  message: z.string().optional(),
+})
+
+type RsvpData = z.infer<typeof rsvpSchema>
 
 export function RsvpSection() {
   const [isSubmitting, setIsSubmitting] = React.useState(false)
-  const [formData, setFormData] = React.useState({
+
+  const [formData, setFormData] = React.useState<RsvpData>({
     name: "",
     email: "",
     attending: "yes",
@@ -25,36 +43,43 @@ export function RsvpSection() {
   }
 
   const handleRadioChange = (value: string) => {
-    setFormData({ ...formData, attending: value })
+    setFormData({ ...formData, attending: value as "yes" | "no" })
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsSubmitting(true)
 
+    const validation = rsvpSchema.safeParse(formData)
+
+    if (!validation.success) {
+      const firstError = validation.error.errors[0]
+      toast(`Validation Error\n${firstError.message}`)
+      setIsSubmitting(false)
+      return
+    }
+
     try {
       const response = await fetch("/api/rsvp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(validation.data),
       })
 
       const result = await response.json()
 
       if (response.ok) {
         toast("RSVP Submitted!\nThank you for your response.")
-        // Reset form
         setFormData({ name: "", email: "", attending: "yes", guests: "1", message: "" })
       } else {
         throw new Error(result.message || "Something went wrong.")
       }
-    } catch (error: any) {
-      // toast({
-      //   title: "Error",
-      //   description: error.message || "Could not submit RSVP. Please try again.",
-      //   variant: "destructive",
-      // })
-      toast("Error\nCould not submit RSVP. Please try again.")
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        toast(`Error\n${err.message}`)
+      } else {
+        toast("Error\nCould not submit RSVP. Please try again.")
+      }
     } finally {
       setIsSubmitting(false)
     }
