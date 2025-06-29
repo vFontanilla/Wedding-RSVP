@@ -7,12 +7,12 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Camera } from "lucide-react"
 
 const galleryImages = [
-  { id: 1, src: "/placeholder.svg?width=400&height=300&text=Memory+1", alt: "Our first vacation together" },
-  { id: 2, src: "/placeholder.svg?width=400&height=300&text=Memory+2", alt: "Celebrating an anniversary" },
-  { id: 3, src: "/placeholder.svg?width=400&height=300&text=Memory+3", alt: "The proposal moment" },
-  { id: 4, src: "/placeholder.svg?width=400&height=300&text=Memory+4", alt: "Adventures in the city" },
-  { id: 5, src: "/placeholder.svg?width=400&height=300&text=Memory+5", alt: "Relaxing by the beach" },
-  { id: 6, src: "/placeholder.svg?width=400&height=300&text=Memory+6", alt: "A candid laugh" },
+  { id: 1, src: "/images/pexels-edurawpro-32060024.jpg", alt: "Our first vacation together" },
+  { id: 2, src: "/images/pexels-shvets-production-8933708.jpg", alt: "Celebrating an anniversary" },
+  { id: 3, src: "/images/pexels-shvets-production-8933710.jpg", alt: "The proposal moment" },
+  { id: 4, src: "/images/pexels-shvets-production-8933718.jpg", alt: "Adventures in the city" },
+  { id: 5, src: "/images/pexels-shvets-production-8933720.jpg", alt: "Relaxing by the beach" },
+  { id: 6, src: "/images/pexels-phani-29173369.jpg", alt: "A candid laugh" },
 ]
 
 export function GallerySection() {

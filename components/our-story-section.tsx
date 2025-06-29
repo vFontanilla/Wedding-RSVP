@@ -15,9 +15,9 @@ export function OurStorySection() {
           <div className="animate-slideInUp animated-once animate-delay-200">
             <Card className="overflow-hidden shadow-lg border-weddingGold/30">
               <Image
-                src="/placeholder.svg?width=600&height=450&text=Our+Favorite+Moment"
+                src="/images/pexels-phani-29173369.jpg"
                 alt="Von and Salo Mae"
-                width={600}
+                width={450}
                 height={450}
                 className="w-full h-auto object-cover"
               />

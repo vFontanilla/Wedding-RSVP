@@ -7,8 +7,8 @@ export function HeroSection() {
   return (
     <section className="relative h-[calc(100vh-5rem)] min-h-[600px] flex items-center justify-center text-center text-white animate-fadeIn animated-once">
       <Image
-        src="/images/pexels-edurawpro-32060022.jpg"
-        alt="Von & Salo Mae - Our Wedding Day"
+        src="/placeholder.svg?width=1920&height=1080&text=Alex+%26+Jamie"
+        alt="Alex and Jamie - Our Wedding Day"
         layout="fill"
         objectFit="cover"
         className="absolute inset-0 z-0"
