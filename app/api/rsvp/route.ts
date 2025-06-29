@@ -5,7 +5,7 @@ export async function POST(request: Request) {
   let rsvpData;
   try {
     rsvpData = await request.json();
-  } catch (_) {
+  } catch {
     return NextResponse.json(
       { message: "Invalid request body. Expected JSON." },
       { status: 400 }
