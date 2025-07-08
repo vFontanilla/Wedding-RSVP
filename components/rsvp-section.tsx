@@ -91,7 +91,7 @@ export function RsvpSection() {
         <div className="text-center mb-12 md:mb-16 animate-slideInUp animated-once">
           <Mail className="h-12 w-12 text-weddingRose-dark mx-auto mb-4" />
           <h2 className="text-4xl md:text-5xl font-serif font-semibold text-weddingGold-dark">Kindly RSVP</h2>
-          <p className="text-lg text-weddingText mt-2">Please let us know if you can make it by September 15, 2025.</p>
+          <p className="text-lg text-weddingText mt-2">Please let us know if you can make it by August 25, 2025.</p>
         </div>
         <Card className="max-w-2xl mx-auto shadow-xl border-weddingGold/30 p-2 sm:p-0 animate-scaleUp animated-once">
           <CardHeader className="text-center">
