@@ -8,7 +8,7 @@ export function HeroSection() {
     <section className="relative h-[calc(100vh-5rem)] min-h-[600px] flex items-center justify-center text-center text-white animate-fadeIn animated-once">
       <Image
         src="/images/pexels-edurawpro-32060022.jpg"
-        alt="Von & Salo Mae - Our Wedding Day"
+        alt="John & Dowy - Our Wedding Day"
         layout="fill"
         objectFit="cover"
         className="absolute inset-0 z-0"
@@ -20,7 +20,7 @@ export function HeroSection() {
           You are invited to celebrate the wedding of
         </h2>
         <h1 className="font-serif text-6xl md:text-8xl font-bold mb-6 text-white animate-slideInUp animated-once animate-delay-400">
-          Von & Salo Mae
+          John & Dowy
         </h1>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8 text-lg text-weddingCream-light animate-slideInUp animated-once animate-delay-600">
           <div className="flex items-center gap-2">

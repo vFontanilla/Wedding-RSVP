@@ -19,8 +19,8 @@ const playfairDisplay = Playfair_Display({
 })
 
 export const metadata = {
-  title: "You're Invited! - Von & Salo Mae's Wedding",
-  description: "Join Von and Salo Mae as they celebrate their wedding. Find all the details and RSVP here.",
+  title: "You're Invited! - John & Dowy's Wedding",
+  description: "Join John and Dowy as they celebrate their wedding. Find all the details and RSVP here.",
   icons: {
     icon: "/images/pexels-edurawpro-32060022.jpg", // or .png, .svg, etc.
   },

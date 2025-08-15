@@ -24,7 +24,7 @@ export function WeddingNavbar() {
           className="flex items-center gap-2 text-weddingGold-dark hover:text-weddingGold transition-colors"
         >
           <Flower2 className="h-7 w-7" />
-          <span className="font-serif text-2xl font-semibold">V & S</span>
+          <span className="font-serif text-2xl font-semibold">J & D</span>
         </Link>
         <nav className="hidden md:flex items-center gap-2">
           {navItems.map((item) => (
@@ -53,7 +53,7 @@ export function WeddingNavbar() {
                 onClick={() => setIsOpen(false)}
               >
                 <Flower2 className="h-7 w-7" />
-                <span className="font-serif text-2xl font-semibold">Von & Salo Mae</span>
+                <span className="font-serif text-2xl font-semibold">John & Dowy</span>
               </Link>
               {navItems.map((item) => (
                 <Button

@@ -16,7 +16,7 @@ export function OurStorySection() {
             <Card className="overflow-hidden shadow-lg border-weddingGold/30">
               <Image
                 src="/images/pexels-phani-29173369.jpg"
-                alt="Von and Salo Mae"
+                alt="John and Dowy"
                 width={450}
                 height={450}
                 className="w-full h-auto object-cover"
@@ -25,8 +25,8 @@ export function OurStorySection() {
           </div>
           <div className="space-y-6 text-weddingText text-lg leading-relaxed animate-slideInUp animated-once animate-delay-400">
             <p>
-              It all started on a crisp autumn afternoon at a local coffee shop. Von was engrossed in a book, and
-              Salo, captivated by the title, struck up a conversation. What began as a simple chat about literature
+              It all started on a crisp autumn afternoon at a local coffee shop. John was engrossed in a book, and
+              Dowy, captivated by the title, struck up a conversation. What began as a simple chat about literature
               quickly blossomed into hours of shared laughter, dreams, and an undeniable connection.
             </p>
             <p>
