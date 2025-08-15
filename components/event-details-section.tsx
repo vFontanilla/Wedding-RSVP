@@ -68,7 +68,7 @@ export function EventDetailsSection() {
                         {item.details}
                       </button>
                     </DialogTrigger>
-                    <DialogContent className="max-w-md">
+                    <DialogContent aria-label="Outfit Ideas" className="max-w-md">
                       <DialogHeader>
                         <DialogTitle>Outfit Ideas</DialogTitle>
                       </DialogHeader>

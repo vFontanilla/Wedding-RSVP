@@ -2,7 +2,7 @@
 
 import React from "react"
 import Image from "next/image"
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Card, CardContent } from "@/components/ui/card"
 import { Camera } from "lucide-react"
 
@@ -47,15 +47,25 @@ export function GallerySection() {
                 </Card>
               </DialogTrigger>
               {selectedImage && selectedImage.id === image.id && (
-                <DialogContent className="max-w-3xl p-2 bg-weddingCream-light border-weddingGold/50">
+                <DialogContent
+                  className="max-w-3xl p-2 bg-weddingCream-light border-weddingGold/50"
+                >
+                  <DialogHeader>
+                    <DialogTitle className="text-center text-sm text-weddingText">
+                      {selectedImage.alt}
+                    </DialogTitle>
+                  </DialogHeader>
+
                   <Image
-                    src={selectedImage.src.replace("400&height=300", "800&height=600") || "/placeholder.svg"} // Request larger image for modal
+                    src={
+                      selectedImage.src.replace("400&height=300", "800&height=600") ||
+                      "/placeholder.svg"
+                    }
                     alt={selectedImage.alt}
                     width={800}
                     height={600}
                     className="w-full h-auto object-contain rounded-md"
                   />
-                  <p className="text-center text-sm text-weddingText mt-2">{selectedImage.alt}</p>
                 </DialogContent>
               )}
             </Dialog>
