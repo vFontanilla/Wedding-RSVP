@@ -1,7 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { CalendarDays, MapPin, Gift, Users } from "lucide-react"
+import { CalendarDays, MapPin, Gift, Users, Heart } from "lucide-react"
+import Image from "next/image"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 
 export function EventDetailsSection() {
+  const dressCodeImage = "/images/sample-wedding-1.jpg"
+
   const eventDetails = [
     {
       icon: CalendarDays,
@@ -12,20 +16,21 @@ export function EventDetailsSection() {
     {
       icon: MapPin,
       title: "Venue",
-      description: "A Beautiful Venue in Bacolod City", // Example
-      details: "Bacolod City, Negros Occidental, Philippines", // Example
+      description: "Nature's Village", // Example
+      details: "Talisay City, Negros Occidental, Philippines", // Example
     },
     {
       icon: Users,
-      title: "Dress Code",
-      description: "Formal Attire",
-      details: "We kindly request guests to dress in their finest.",
+      title: "Our Dress Code",
+      description: "We love how you're glowing! Still, if you want tips on what to wear, here are some ideas for you.",
+      details: "Click this to view the outfit idea for the event",
+      dialogImage: dressCodeImage,
     },
     {
       icon: Gift,
       title: "Gift Registry",
-      description: "Your presence is our gift!",
-      details: "However, if you wish to contribute, please visit our registry section.",
+      description: "Your presence is the greatest gift of all!",
+      details: "But if you'd like to give something more, we would truly appreciate a contribution toward our future together.❤",
     },
   ]
 
@@ -52,7 +57,36 @@ export function EventDetailsSection() {
               </CardHeader>
               <CardContent className="text-weddingText">
                 <p className="font-semibold text-lg">{item.description}</p>
-                <p className="text-sm">{item.details}</p>
+                {/* If item has a dialogImage, make the details clickable and open the dialog */}
+                {"dialogImage" in item ? (
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <button
+                        type="button"
+                        className="text-sm text-weddingGold underline underline-offset-4 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-weddingGold/40 rounded"
+                      >
+                        {item.details}
+                      </button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-md">
+                      <DialogHeader>
+                        <DialogTitle>Outfit Ideas</DialogTitle>
+                      </DialogHeader>
+                      <div className="relative w-full">
+                        <Image
+                          src={item.dialogImage as string}
+                          alt="Outfit ideas for the event"
+                          width={1200}
+                          height={800}
+                          className="w-full h-auto rounded-xl"
+                          priority={false}
+                        />
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                ) : (
+                  <p className="text-sm">{item.details}</p>
+                )}
               </CardContent>
             </Card>
           ))}
