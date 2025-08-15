@@ -34,7 +34,10 @@ export function EventDetailsSection() {
     },
   ]
 
-  const mapUrl = "https://maps.google.com/maps?q=Bacolod+City%2C+Negros+Occidental&t=&z=13&ie=UTF8&iwloc=&output=embed"
+  // const mapUrl = "https://maps.google.com/maps?q=Bacolod+City%2C+Negros+Occidental&t=&z=13&ie=UTF8&iwloc=&output=embed"
+
+  const mapQuery = "Nature's Village, Talisay City, Negros Occidental";
+  const mapUrl = `https://maps.google.com/maps?q=${encodeURIComponent(mapQuery)}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
 
   return (
     <section id="details" className="py-16 md:py-24 bg-weddingCream">
