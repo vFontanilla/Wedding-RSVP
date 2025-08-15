@@ -12,17 +12,13 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 
-// Zod Schema
+// ✅ Schema matches Strapi fields
 const rsvpSchema = z.object({
-  name: z.string().min(1, "Name is required."),
-  email: z.string().email("Invalid email address."),
-  attending: z.enum(["yes", "no"]),
-  guests: z
-    .string()
-    .refine((val) => !isNaN(Number(val)) && Number(val) >= 1, {
-      message: "Guests must be a number greater than 0.",
-    }),
-  message: z.string().optional(),
+  fullName: z.string().min(1, "Full name is required."),
+  emailAddress: z.string().email("Invalid email address."),
+  attending: z.boolean(),
+  numberGuests: z.number().min(1, "Guests must be at least 1."),
+  longMessage: z.string().optional(),
 })
 
 type RsvpData = z.infer<typeof rsvpSchema>
@@ -31,19 +27,23 @@ export function RsvpSection() {
   const [isSubmitting, setIsSubmitting] = React.useState(false)
 
   const [formData, setFormData] = React.useState<RsvpData>({
-    name: "",
-    email: "",
-    attending: "yes",
-    guests: "1",
-    message: "",
+    fullName: "",
+    emailAddress: "",
+    attending: true,
+    numberGuests: 1,
+    longMessage: "",
   })
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
+    const { name, value, type } = e.target
+    setFormData({
+      ...formData,
+      [name]: type === "number" ? Number(value) : value,
+    })
   }
 
   const handleRadioChange = (value: string) => {
-    setFormData({ ...formData, attending: value as "yes" | "no" })
+    setFormData({ ...formData, attending: value === "yes" })
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -51,7 +51,6 @@ export function RsvpSection() {
     setIsSubmitting(true)
 
     const validation = rsvpSchema.safeParse(formData)
-
     if (!validation.success) {
       const firstError = validation.error.errors[0]
       toast(`Validation Error\n${firstError.message}`)
@@ -60,6 +59,7 @@ export function RsvpSection() {
     }
 
     try {
+      // ✅ Call Next.js API route instead of Strapi directly
       const response = await fetch("/api/rsvp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -70,9 +70,9 @@ export function RsvpSection() {
 
       if (response.ok) {
         toast("RSVP Submitted!\nThank you for your response.")
-        setFormData({ name: "", email: "", attending: "yes", guests: "1", message: "" })
+        setFormData({ fullName: "", emailAddress: "", attending: true, numberGuests: 1, longMessage: "" })
       } else {
-        throw new Error(result.message || "Something went wrong.")
+        throw new Error(result.error || "Something went wrong.")
       }
     } catch (err: unknown) {
       if (err instanceof Error) {
@@ -100,93 +100,96 @@ export function RsvpSection() {
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Full Name */}
               <div>
-                <Label htmlFor="name" className="text-weddingText font-medium">
+                <Label htmlFor="fullName" className="text-weddingText font-medium">
                   Full Name(s)
                 </Label>
                 <Input
-                  id="name"
-                  name="name"
-                  value={formData.name}
+                  id="fullName"
+                  name="fullName"
+                  value={formData.fullName}
                   onChange={handleChange}
                   required
                   className="mt-1 bg-weddingCream-light border-weddingGold/40 focus:border-weddingGold focus:ring-weddingGold"
                 />
               </div>
+
+              {/* Email */}
               <div>
-                <Label htmlFor="email" className="text-weddingText font-medium">
+                <Label htmlFor="emailAddress" className="text-weddingText font-medium">
                   Email Address
                 </Label>
                 <Input
-                  id="email"
-                  name="email"
+                  id="emailAddress"
+                  name="emailAddress"
                   type="email"
-                  value={formData.email}
+                  value={formData.emailAddress}
                   onChange={handleChange}
                   required
                   className="mt-1 bg-weddingCream-light border-weddingGold/40 focus:border-weddingGold focus:ring-weddingGold"
                 />
               </div>
+
+              {/* Attending */}
               <div>
                 <Label className="text-weddingText font-medium">Will you be attending?</Label>
                 <RadioGroup
                   name="attending"
-                  value={formData.attending}
+                  value={formData.attending ? "yes" : "no"}
                   onValueChange={handleRadioChange}
                   className="mt-2 flex gap-6"
                 >
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem
-                      value="yes"
-                      id="yes"
-                      className="text-primary border-weddingGold/60 data-[state=checked]:border-primary"
-                    />
+                    <RadioGroupItem value="yes" id="yes" />
                     <Label htmlFor="yes" className="text-weddingText">
                       Joyfully Accept
                     </Label>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem
-                      value="no"
-                      id="no"
-                      className="text-primary border-weddingGold/60 data-[state=checked]:border-primary"
-                    />
+                    <RadioGroupItem value="no" id="no" />
                     <Label htmlFor="no" className="text-weddingText">
                       Regretfully Decline
                     </Label>
                   </div>
                 </RadioGroup>
               </div>
-              {formData.attending === "yes" && (
+
+              {/* Guests (only if attending) */}
+              {formData.attending && (
                 <div>
-                  <Label htmlFor="guests" className="text-weddingText font-medium">
+                  <Label htmlFor="numberGuests" className="text-weddingText font-medium">
                     Number of Guests (including yourself)
                   </Label>
                   <Input
-                    id="guests"
-                    name="guests"
+                    id="numberGuests"
+                    name="numberGuests"
                     type="number"
                     min="1"
-                    value={formData.guests}
+                    value={formData.numberGuests}
                     onChange={handleChange}
                     required
                     className="mt-1 bg-weddingCream-light border-weddingGold/40 focus:border-weddingGold focus:ring-weddingGold"
                   />
                 </div>
               )}
+
+              {/* Message */}
               <div>
-                <Label htmlFor="message" className="text-weddingText font-medium">
+                <Label htmlFor="longMessage" className="text-weddingText font-medium">
                   Leave a message (optional)
                 </Label>
                 <Textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
+                  id="longMessage"
+                  name="longMessage"
+                  value={formData.longMessage}
                   onChange={handleChange}
                   rows={3}
                   className="mt-1 bg-weddingCream-light border-weddingGold/40 focus:border-weddingGold focus:ring-weddingGold"
                 />
               </div>
+
+              {/* Submit */}
               <Button
                 type="submit"
                 disabled={isSubmitting}
